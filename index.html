@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Encuesta de Redes Sociales</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 15px;
+    }
+
+    .container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 850px;
+      padding: 35px 40px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+      color: #2c3e50;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+    }
+
+    .campo {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #4a5568;
+      font-size: 0.95rem;
+    }
+
+    select, input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      background-color: #f8fafc;
+      transition: all 0.25s ease;
+      outline: none;
+    }
+
+    select:focus, input[type="text"]:focus {
+      border-color: #4f46e5;
+      background-color: #fff;
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .acciones-btn {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 25px;
+      justify-content: center;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    #btnRegistrar {
+      background-color: #4f46e5;
+      color: white;
+    }
+    #btnRegistrar:hover { background-color: #4338ca; }
+
+    #btnConsultar {
+      background-color: #0284c7;
+      color: white;
+    }
+    #btnConsultar:hover { background-color: #0369a1; }
+
+    #btnModificar {
+      background-color: #eab308;
+      color: white;
+    }
+    #btnModificar:hover { background-color: #ca8a04; }
+
+    #btnEliminar {
+      background-color: #ef4444;
+      color: white;
+    }
+    #btnEliminar:hover { background-color: #dc2626; }
+
+    #btnCerrar {
+      background-color: #64748b;
+      color: white;
+    }
+    #btnCerrar:hover { background-color: #475569; }
+
+    button:disabled {
+      background-color: #cbd5e1 !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+    }
+
+    #estado {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+      color: #3b82f6;
+      min-height: 24px;
+    }
+
+    #seccionTabla {
+      display: none;
+      margin-top: 35px;
+      padding-top: 25px;
+      border-top: 2px dashed #e2e8f0;
+    }
+
+    .tabla-container {
+      overflow-x: auto;
+      margin-top: 15px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    th {
+      background-color: #f1f5f9;
+      color: #334155;
+      font-weight: 700;
+      text-align: left;
+      padding: 12px;
+      border-bottom: 2px solid #cbd5e1;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e2e8f0;
+      color: #475569;
+    }
+
+    tr:hover {
+      background-color: #f8fafc;
+    }
+
+    .btn-tabla {
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      margin-right: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Encuesta sobre Uso de Redes Sociales</h2>
+
+    <form id="formulario">
+      <input type="hidden" id="id">
+
+      <div class="campo">
+        <label for="frecuencia">1. ¿Qué redes sociales utilizas con mayor frecuencia?:</label>
+        <select id="frecuencia" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Instagram">Instagram</option>
+          <option value="TikTok">TikTok</option>
+          <option value="Snapchat">Snapchat</option>
+          <option value="Facebook">Facebook</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="tiempo">2. ¿Cuánto tiempo pasas al día utilizando redes sociales?:</label>
+        <select id="tiempo" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Menos de 1 hora">Menos de 1 hora</option>
+          <option value="De 1 a 3 horas">De 1 a 3 horas</option>
+          <option value="De 4 a 6 horas">De 4 a 6 horas</option>
+          <option value="Más de 6 horas">Más de 6 horas</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="proposito">3. ¿Con qué propósito utilizas principalmente las redes sociales?:</label>
+        <select id="proposito" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Entretenimiento">Entretenimiento</option>
+          <option value="Comunicación con amigos y familiares">Comunicación con amigos y familiares</option>
+          <option value="Estudio y aprendizaje">Estudio y aprendizaje</option>
+          <option value="Informarme sobre noticias">Informarme sobre noticias</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="rendimiento">4. ¿Consideras que las redes sociales influyen en tu rendimiento escolar?:</label>
+        <select id="rendimiento" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Sí, positivamente">Sí, positivamente</option>
+          <option value="Sí, negativamente">Sí, negativamente</option>
+          <option value="No influyen">No influyen</option>
+          <option value="No estoy seguro/a">No estoy seguro/a</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="revisas">5. ¿Con qué frecuencia revisas tus redes sociales durante el día?:</label>
+        <select id="revisas" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Constantemente">Constantemente</option>
+          <option value="Varias veces al día">Varias veces al día</option>
+          <option value="Una o dos veces al día">Una o dos veces al día</option>
+          <option value="Casi nunca">Casi nunca</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="salud">6. ¿Crees que las redes sociales afectan la salud mental de las personas?:</label>
+        <select id="salud" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Sí, de manera positiva">Sí, de manera positiva</option>
+          <option value="Sí, de manera negativa">Sí, de manera negativa</option>
+          <option value="Pueden afectar de ambas formas">Pueden afectar de ambas formas</option>
+          <option value="No lo creo">No lo creo</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="presion">7. ¿Alguna vez has sentido presión por compararte con otras personas en redes sociales?:</label>
+        <select id="presion" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Sí, frecuentemente">Sí, frecuentemente</option>
+          <option value="Algunas veces">Algunas veces</option>
+          <option value="Casi nunca">Casi nunca</option>
+          <option value="Nunca">Nunca</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="privacidad">8. ¿Qué tan importante consideras la privacidad y la seguridad al utilizar redes sociales?:</label>
+        <select id="privacidad" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Muy importante">Muy importante</option>
+          <option value="Importante">Importante</option>
+          <option value="Poco importante">Poco importante</option>
+          <option value="Nada importante">Nada importante</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="facilidad">9. ¿Crees que las redes sociales facilitan la comunicación entre las personas?:</label>
+        <select id="facilidad" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Sí, mucho">Sí, mucho</option>
+          <option value="Sí, un poco">Sí, un poco</option>
+          <option value="No demasiado">No demasiado</option>
+          <option value="No, para nada">No, para nada</option>
+        </select>
+      </div>
+
+      <div class="campo">
+        <label for="considerar">10. ¿Consideras que utilizas las redes sociales durante más tiempo del que deberías?:</label>
+        <select id="considerar" required>
+          <option value="" disabled selected>Selecciona una opción...</option>
+          <option value="Sí">Sí</option>
+          <option value="No">No</option>
+          <option value="A veces">A veces</option>
+          <option value="No estoy seguro/a">No estoy seguro/a</option>
+        </select>
+      </div>
+
+      <div class="acciones-btn">
+        <button type="button" id="btnRegistrar">Registrar</button>
+        <button type="button" id="btnConsultar">Consultar</button>
+        <button type="button" id="btnModificar">Modificar</button>
+        <button type="button" id="btnEliminar">Eliminar</button>
+      </div>
+    </form>
+
+    <p id="estado"></p>
+
+    <div id="seccionTabla">
+      <h2>Registros Guardados</h2>
+      <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+        <input type="text" id="buscador" placeholder="Buscar en los registros...">
+        <button type="button" id="btnCerrar">Cerrar tabla</button>
+      </div>
+
+      <div class="tabla-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Frecuencia</th>
+              <th>Tiempo</th>
+              <th>Propósito</th>
+              <th>Rendimiento</th>
+              <th>Revisar</th>
+              <th>Salud</th>
+              <th>Presión</th>
+              <th>Privacidad</th>
+              <th>Facilidad</th>
+              <th>Considerar</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tabla"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var URL_SCRIPT = "https://script.google.com/macros/s/AKfycbztW1GJg-fKFZkVsJH8ZbU5H56XDy57Ee8Ct3TXpiEgBZzCGcAjw8e5Rlc7MGSUryi3IQ/exec";
+    var registros = [];
+    var tablaVisible = false;
+
+    function enviar(datos) {
+      return fetch(URL_SCRIPT, {
+        method: "POST",
+        body: new URLSearchParams(datos)
+      }).then(function (r) { return r.json(); });
+    }
+
+    function actualizarBotones() {
+      var hayRegistro = document.getElementById("id").value !== "";
+      document.getElementById("btnRegistrar").disabled = hayRegistro;
+      document.getElementById("btnModificar").disabled = !hayRegistro;
+      document.getElementById("btnEliminar").disabled = !hayRegistro;
+    }
+
+    function limpiarFormulario() {
+      document.getElementById("formulario").reset();
+      document.getElementById("id").value = "";
+      actualizarBotones();
+    }
+
+    // ---------- REGISTRAR ----------
+    document.getElementById("btnRegistrar").onclick = function () {
+      if (!document.getElementById("formulario").reportValidity()) return;
+
+      document.getElementById("estado").textContent = "Guardando...";
+      enviar({
+        accion: "guardar",
+        frecuencia: document.getElementById("frecuencia").value,
+        tiempo: document.getElementById("tiempo").value,
+        proposito: document.getElementById("proposito").value,
+        rendimiento: document.getElementById("rendimiento").value,
+        revisas: document.getElementById("revisas").value,
+        salud: document.getElementById("salud").value,
+        presion: document.getElementById("presion").value,
+        privacidad: document.getElementById("privacidad").value,
+        facilidad: document.getElementById("facilidad").value,
+        considerar: document.getElementById("considerar").value
+      }).then(function (respuesta) {
+        terminarAccion(respuesta, "¡Registro guardado exitosamente!");
+      });
+    };
+
+    // ---------- CONSULTAR ----------
+    document.getElementById("btnConsultar").onclick = function () {
+      document.getElementById("estado").textContent = "Cargando datos...";
+      tablaVisible = true;
+      document.getElementById("seccionTabla").style.display = "block";
+      cargarRegistros(function () {
+        document.getElementById("estado").textContent = "";
+      });
+    };
+
+    function cargarRegistros(alTerminar) {
+      fetch(URL_SCRIPT)
+        .then(function (r) { return r.json(); })
+        .then(function (datos) {
+          registros = datos;
+          mostrarTabla();
+          if (alTerminar) alTerminar();
+        });
+    }
+
+    function mostrarTabla() {
+      var filtro = document.getElementById("buscador").value.trim().toLowerCase();
+      var tabla = document.getElementById("tabla");
+      tabla.innerHTML = "";
+
+      registros.forEach(function (reg) {
+        var textoFila = (reg.frecuencia + " " + reg.tiempo + " " + reg.proposito + " " + reg.rendimiento + " " + reg.revisas + " " + reg.salud + " " + reg.presion + " " + reg.privacidad + " " + reg.facilidad + " " + reg.considerar).toLowerCase();
+        if (filtro !== "" && !textoFila.includes(filtro)) return;
+
+        var tr = document.createElement("tr");
+        agregarCelda(tr, new Date(reg.fecha).toLocaleString());
+
+        agregarCelda(tr, reg.frecuencia);
+        agregarCelda(tr, reg.tiempo);
+        agregarCelda(tr, reg.proposito);
+        agregarCelda(tr, reg.rendimiento);
+        agregarCelda(tr, reg.revisas);
+        agregarCelda(tr, reg.salud);
+        agregarCelda(tr, reg.presion);
+        agregarCelda(tr, reg.privacidad);
+        agregarCelda(tr, reg.facilidad);
+        agregarCelda(tr, reg.considerar);
+
+        var td = document.createElement("td");
+
+        var btnModificarFila = document.createElement("button");
+        btnModificarFila.textContent = "Editar";
+        btnModificarFila.className = "btn-tabla";
+        btnModificarFila.style.backgroundColor = "#eab308";
+        btnModificarFila.style.color = "white";
+        btnModificarFila.onclick = function () { cargarEnFormulario(reg); };
+
+        var btnEliminarFila = document.createElement("button");
+        btnEliminarFila.textContent = "Borrar";
+        btnEliminarFila.className = "btn-tabla";
+        btnEliminarFila.style.backgroundColor = "#ef4444";
+        btnEliminarFila.style.color = "white";
+        btnEliminarFila.onclick = function () { eliminar(reg.id); };
+
+        td.appendChild(btnModificarFila);
+        td.appendChild(btnEliminarFila);
+        tr.appendChild(td);
+        tabla.appendChild(tr);
+      });
+    }
+
+    function agregarCelda(fila, texto) {
+      var td = document.createElement("td");
+      td.textContent = texto;
+      fila.appendChild(td);
+    }
+
+    document.getElementById("buscador").oninput = mostrarTabla;
+
+    // ---------- CERRAR TABLA ----------
+    document.getElementById("btnCerrar").onclick = function () {
+      tablaVisible = false;
+      document.getElementById("seccionTabla").style.display = "none";
+      document.getElementById("buscador").value = "";
+      document.getElementById("tabla").innerHTML = "";
+    };
+
+    // ---------- Pasar el registro al formulario ----------
+    function cargarEnFormulario(reg) {
+      document.getElementById("id").value = reg.id;
+
+      document.getElementById("frecuencia").value = reg.frecuencia;
+      document.getElementById("tiempo").value = reg.tiempo;
+      document.getElementById("proposito").value = reg.proposito;
+      document.getElementById("rendimiento").value = reg.rendimiento;
+      document.getElementById("revisas").value = reg.revisas;
+      document.getElementById("salud").value = reg.salud;
+      document.getElementById("presion").value = reg.presion;
+      document.getElementById("privacidad").value = reg.privacidad;
+      document.getElementById("facilidad").value = reg.facilidad;
+      document.getElementById("considerar").value = reg.considerar;
+
+      document.getElementById("estado").textContent =
+        "Modificando registro: cambia los datos y presiona Modificar";
+      actualizarBotones();
+
+      window.scrollTo(0, 0);
+      document.getElementById("frecuencia").focus();
+    }
+
+    // ---------- MODIFICAR ----------
+    document.getElementById("btnModificar").onclick = function () {
+      var id = document.getElementById("id").value;
+
+      if (id === "") {
+        alert("Primero elige un registro con el botón 'Editar'");
+        return;
+      }
+      if (!document.getElementById("formulario").reportValidity()) return;
+
+      document.getElementById("estado").textContent = "Modificando...";
+      enviar({
+        accion: "editar",
+        id: id,
+        frecuencia: document.getElementById("frecuencia").value,
+        tiempo: document.getElementById("tiempo").value,
+        proposito: document.getElementById("proposito").value,
+        rendimiento: document.getElementById("rendimiento").value,
+        revisas: document.getElementById("revisas").value,
+        salud: document.getElementById("salud").value,
+        presion: document.getElementById("presion").value,
+        privacidad: document.getElementById("privacidad").value,
+        facilidad: document.getElementById("facilidad").value,
+        considerar: document.getElementById("considerar").value
+      }).then(function (respuesta) {
+        terminarAccion(respuesta, "¡Registro modificado correctamente!");
+      });
+    };
+
+    // ---------- ELIMINAR ----------
+    document.getElementById("btnEliminar").onclick = function () {
+      eliminar(document.getElementById("id").value);
+    };
+
+    function eliminar(id) {
+      if (!confirm("¿Seguro que quieres eliminar este registro?")) return;
+
+      document.getElementById("estado").textContent = "Eliminando...";
+      enviar({ accion: "eliminar", id: id }).then(function (respuesta) {
+        terminarAccion(respuesta, "Registro eliminado");
+      });
+    }
+
+    function terminarAccion(respuesta, mensajeOk) {
+      document.getElementById("estado").textContent =
+        respuesta.ok ? mensajeOk : "Error: " + respuesta.mensaje;
+      limpiarFormulario();
+      if (tablaVisible) cargarRegistros();
+    }
+
+    actualizarBotones();
+  </script>
+
+</body>
+</html>
